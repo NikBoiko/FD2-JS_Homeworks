@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>KALKULAT0R</title>
+  <style>
+
+  </style>
+</head>
+<body>
+
+<script>
+  function calculate (a){
+    return function (b){
+      return function (c){
+        if (b === "+"){
+          return console.log((a + "+" + c + "="),(a+c));
+        } else {
+          if (b === "-"){
+            return console.log((a + "-" + c + "="),(a-c));
+          } else {
+            if (b === "*"){
+              return console.log((a + "*" + c + "="),(a*c));
+            } else {
+              if (b === "/"){
+                if (c != 0){
+                  return console.log((a + "/" + c + "="),(a/c));
+                } else {
+                  return console.log((a + "/" + c + "="),("ОШИБКА, деление на ноль не имеет смысла"));
+                };
+              };
+            };
+          };
+        };
+      };
+    };
+  };
+
+  function pow(a){
+    return function (b){
+      function mPow(a,b){
+        if ( b === 0 ){
+          return 1;
+        }
+        if (b < 0){
+          var b = -1*b;
+          return 1/(b<=1?a:a*mPow(a, b-1));
+        }
+          if (b > 0){
+            return b<=1?a:a*mPow(a, b-1);
+        };
+      };
+      return console.log(a + "^" + b + "=" + mPow(a,b));
+    };
+  };
+
+
+
+/// 1
+    pow(2)(3);
+    calculate(1)("+")(2);
+/// 2
+    pow(4)(2);
+    calculate(3)("*")(7);
+/// 3
+    pow(16)(0);
+    calculate(15)("/")(3);
+/// 4
+    pow(12)(-3);
+    calculate(2)("/")(0);
+
+</script>
+</body>
+</html>

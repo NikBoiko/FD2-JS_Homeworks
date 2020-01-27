@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>KNOPKI</title>
+  <style>
+      .btn-style{
+        width: 200px;
+        height: 100px;
+      }
+  </style>
+</head>
+<body>
+  <div>
+    <input class="btn-style" type="button" value="0"><br>
+    <input class="btn-style" type="button" value="0"><br>
+    <input class="btn-style" type="button" value="0"><br>
+    <input class="btn-style" type="button" value="0">
+  </div>
+<script>
+  var btn = document.querySelectorAll("input");
+
+  function makeCounter() {
+
+  var currentCount = 1;
+
+  return function() {
+    return currentCount++;
+  };
+};
+
+
+  for (let i = 0; i < btn.length; i++){
+    let counter = makeCounter();
+     btn[i].onclick = function(){
+      btn[i].value = counter();
+     };
+    };
+
+</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>quadratic</title>
+</head>
+<body>
+<script>
+	function quadraticEquation(a, b, c) {
+		var D = b*b - 4 * a * c;
+		var a1 = a;
+			if (a<1){
+				a1 =" -", a;
+			} else{
+				if (a === 1){
+				a1=""
+				};
+			};
+		var b1 = " + ";
+			if (b<1){
+				b1 = " - ";
+			};
+		var c1 = " - ";
+			if (c<1){
+				c1=" - ";
+			};
+		 if (D < 0) {
+			 console.log("уравнение " + a1 + "x^2" + b1 + Math.sqrt(b*b) + "x" + c1 + Math.sqrt(c*c) + " = 0 не имеет вещественных корней");
+		 } else {
+			 if (D === 0) {
+			 	console.log(("уравнение " + a1 + "x^2" + b1 + Math.sqrt(b*b) + "x" + c1 + Math.sqrt(c*c) + " = 0 имеет один корнь х ="), ((-b/(2*a))));
+		 	 } else {
+				 console.log(("уравнение " + a1 + "x^2" + b1 + Math.sqrt(b*b) + "x" + c1 + Math.sqrt(c*c) + " = 0 имеет один корнь х1 ="), ((-b+Math.sqrt(D))/(2*a)), ("и x2="), ((-b-Math.sqrt(D))/(2*a)));
+		 	 };
+		 };
+	};
+	quadraticEquation(1, -8, 72);
+	quadraticEquation(1, 12, 36);
+	quadraticEquation(4, -8, 1);
+</script>
+</body>
+</html>

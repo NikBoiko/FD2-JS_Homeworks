@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Methods Masivi</title>
+  <style>
+
+  </style>
+</head>
+<body>
+  <script>
+
+
+///////////////////////////массив простых чисел////////////////////////////////
+
+
+  var numbers = [2, 3, 5, 7, 11, 13, 17];
+
+  function currentSums() {
+    var result = [];
+    var st = numbers[0];
+    var str1 = st + ", ";
+    var totalSum = numbers.reduce(function(sum, current) {
+      result.push(sum); //пихаем в результат с лево на право сумму т.е. так же как сумирует редьюс
+      st = st + "+" + current; //прописываем текущее с массива
+      str1 = str1 + st + ", "; //перепрописываем все значения в поррядке суммирования
+      return sum + current;
+    });
+    result.push(totalSum);// запихиваем в массив последнее значение
+
+    return console.log ("[" + str1.slice(0, str1.length-2) + "] = [" + result + "]"); // вырываем слайсом значения с 0 по длинна -2 знака т.к. там запятая и пробел
+  }
+
+
+///////////////////////////массив из первых букв///////////////////////////////
+
+
+  var str = "Каждый охотник желает знать, где сидит фазан.";
+  var abbr = str.split(' ').map(function(item){// сплит вставит пробелы мап транформирует массив вернет каждый итем0 со слова
+    return item[0]});
+
+
+/////////////////////////ТОлько положительные//////////////////////////
+
+
+var startArray = [-1, 2, 3.5, -12, 4, 1.25, 16];
+var newArray = startArray.filter(function(number) {// фильтр больше нуля
+  return number > 0;
+});
+
+
+////////////////////////Меняем местами куски масива///////////////////////////
+
+
+function changeArray(arrrr){
+  var newNums = arrrr
+  result = [];
+  if (newNums.length%2 === 0){
+    for (i = (newNums.length/2); i < newNums.length; i++) {
+      result.push(newNums[i]);
+    }
+    for(i = 0; i < (newNums.length/2); i++){
+      result.push(newNums[i]);
+    }
+  } else {
+    for(i = ((newNums.length/2)+0.5); i < newNums.length; i++) {
+      result.push(newNums[i]);
+    };
+    for(i = ((newNums.length/2)-0.5); i < ((newNums.length/2)+0.5); i++) {
+      result.push(newNums[i]);
+    }
+    for(i = 0; i < (newNums.length/2-0.5); i++){
+      result.push(newNums[i]);
+    }
+  }
+  console.log(result);
+}
+
+
+//////////////////////////////ввод и вывод))))))))))))))))))))))))))))))))
+
+  currentSums(numbers);
+
+  console.log(newArray);
+
+  console.log(abbr);
+
+  changeArray([1, 2, 3, 4, 5])
+  changeArray([1, 2])
+  changeArray([1, 2, 3, 4, 5, 6, 7, 8])
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>calendar</title>
+
+	<style>
+		body{
+			margin: 10px;
+		}
+		.circle {
+			width: 501px;
+			height: 501px;
+			border-radius: 50%;
+				-moz-border-radius: 50%;
+				-webkit-border-radius: 50%;
+			background-color:rgba(44,175,135,.9);
+			position: relative;
+		}
+		.arrow{
+			border-style: hidden;
+			position: absolute;
+			transform-origin: center;
+			z-index: 10;
+		}
+		#hr{
+			width: 401px;
+			height: 13px;
+			left: 50px;
+			top: 244px;
+			background: linear-gradient(to right, rgb(13,14,14) 62%, rgba(255,255,255,0) 38%);
+		}
+		#min{
+			width: 451px;
+			height: 9px;
+			left: 25px;
+			top: 246px;
+			background: linear-gradient(to right, rgb(13,14,14) 60%, rgba(255,255,255,0) 40%);
+		}
+		#sec{
+			width: 450px;
+			height: 3px;
+			top: 249px;
+			left: 25px;
+			background: linear-gradient(to right, rgb(13,14,14) 60%, rgba(255,255,255,0) 40%);
+		}
+		.numbers{
+			width: 40px;
+			height: 500px;
+			position: absolute;
+			left: 239px;
+			top: 10px;
+			font-size: 35px;
+		}
+		.num{
+			margin: 0px;
+			margin-top: 10px;
+			padding: 0px;
+			width: 41px;
+			height: 41px;
+			border-radius: 50%;
+			background-color: rgb(163,210,165);
+			text-align: center;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="circle">
+		<div class="arrow" id="hr"></div>
+		<div class="arrow" id="min"></div>
+		<div class="arrow" id="sec"></div>
+	</div>
+
+<script>
+
+	const hrDiv = document.getElementById("hr"); ///вылавливаем часовую стрелку
+	const minDiv = document.getElementById("min"); /// минутную
+	const secDiv = document.getElementById("sec"); /// секундную
+
+	var d;		// длинный див который содержит див который содержит цифру
+	var di;		// маленкий див с цифрой и круглой заливкой
+	var tm;		// для хранения даты
+	var s;		// секунды
+	var m;		// Минуты
+	var h;		// Часа
+	var num; 	// цифры на циферблате
+
+	setInterval(clock, 1000); //1000 мс = 1 с  перевызываем раз в тик!
+
+	function clock(){
+		var tm = new Date(); /// создаем новый объект для хранения времени
+		var s=tm.getSeconds() / 60; ///делаем дробное значение из времени s(<=1)=s/60
+		var m=(s + tm.getMinutes()) / 60;
+		var h=(m + tm.getHours()) / 12;
+		RotateIt(hrDiv, h); /// вызываем функции которые будут крутить
+		RotateIt(minDiv, m);
+		RotateIt(secDiv, s);
+	}
+
+	function RotateIt(element, rotationValue){ /// собственно крутим
+		element.style.transform = 'rotate(' + ((rotationValue*360) + 90) + 'deg)'
+	}
+
+	function makeDivNum(){
+		for(var num = 1; num <= 12; num++){
+			var d=document.createElement('div'); // большой див 41х501
+			var di=document.createElement('div'); // маленкий див 41х41
+			d.className='numbers'
+			d.style.transform='rotate(' + num * 30 + 'deg)'//крутим длинный див
+			di.className='num'
+			di.style.transform='rotate(' + num * -30 + 'deg)' //крутим кружок с цифрой обратно тому значению с которым крутим родительский див
+			d.appendChild(di); //маленкий див пихаем в большой див
+			document.body.appendChild(d); // теперь все это счастье пихаем в боди
+			di.innerHTML = num;
+			}
+		}
+		makeDivNum()
+
+</script>
+
+</body>
+
+</html>

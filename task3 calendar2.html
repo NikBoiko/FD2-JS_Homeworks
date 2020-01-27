@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>calendar</title>
+
+	<style>
+	table, caption {
+        width: 600px;
+    }
+
+    td, th {
+        background: rgb(80,214,117);
+    	padding: 3px;
+    	text-align: center;
+    	width: 35px;
+        height: 60px;
+    }
+
+    th {
+    	font-weight: bold;
+        background-color: rgb(68,53,222);
+        color: rgb(255,255,255);
+        font-size: 25px;
+    }
+
+    div#buttons,
+    div#calendar {
+        padding: 2px 0;
+        width: 596px;
+    }
+
+    div#buttons {
+        margin-left: 2px;
+        height: 35px;
+        display: flex;
+        justify-content: space-between;
+        background-color: rgb(68,53,222);
+    }
+
+    div#buttons span {
+        min-width: 57%;
+        text-align: center;
+        margin-top: 5px;
+        font-size: 25px;
+    }
+
+    button:nth-child(1),
+    button:nth-child(2),
+    button:nth-child(4),
+    button:nth-child(5) {
+        width: 10%;
+    }
+	body{
+		font-size: 25px;
+	}
+	</style>
+</head>
+<body>
+<div id="header">
+    <div id="buttons"></div>
+    <div id="calendar"></div>
+</div>
+
+<script>
+	var monthPrompt = prompt("Введите месяц (числом от 1 до 12)");
+
+    while ((monthPrompt.length < 1) || (monthPrompt.length > 2) || (monthPrompt < 1) || (monthPrompt > 12) || isNaN(monthPrompt)) {
+            monthPrompt = prompt('Вы уверены, что месяц указали првильно (числом от 1 до 12)?' );
+    };
+
+    var yearPrompt = prompt("Введите год (четырёхзначным числом - пример: 2019)");
+
+    while ((yearPrompt.length < 4) || (yearPrompt.length > 4) || isNaN(yearPrompt)) {
+            yearPrompt = prompt('Вы уверены, что год указали првильно (четырёхзначным числом - пример: 2019)?' );
+    };
+
+    var month = parseInt(monthPrompt);
+    var year = parseInt(yearPrompt);
+    var arrMon=['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+
+    var elem_div = document.getElementById('buttons');
+	var elem = document.getElementById('calendar');
+
+    function butts () {
+        var buttons_edit = '<button><<</button><button><</button><span></span><button>></button><button>>></button>';
+        elem_div.innerHTML = buttons_edit;
+    }
+
+    butts ();
+
+//добавляем сегодняшнюю дату
+    var justNow = new Date();
+    var todayDay = justNow.getDate();
+
+// календарь создаём
+	function createCalendar(month, year) {
+    	let mon = month - 1;
+        var nullStartDay = 0;
+    	var d = new Date(year, mon);
+    	var table = '<table>';
+
+	   	table += '<tr><th>пн</th><th>вт</th><th>ср</th><th>чт</th><th>пт</th><th>сб</th><th>вс</th></tr><tr>'
+
+
+		for (var i = 0; i < getDay(d); i++) {
+			table += '<td></td>';
+            nullStartDay += 1;
+		}
+
+      	while (d.getMonth() === mon) {
+        	table += '<td>' + d.getDate() + '</td>';
+        	if (getDay(d) === 6) {
+         		table += '</tr><tr>';
+        	};
+
+            d.setDate(d.getDate() + 1);
+      	};
+
+		if (getDay(d) != 0) {
+			for (let i = getDay(d); i < 7; i++) {
+				table += '<td></td>';
+			};
+		};
+
+    	table += '</tr></table>';
+    	elem.innerHTML = table;
+
+        let tdd = elem.getElementsByTagName('td');
+        let thh = elem.getElementsByTagName('th');
+    //стилизуем выходные и будние
+        for (let i = 0; i < tdd.length; i++) {
+            if (((i-5)%7 === 0) || ((i-6)%7 === 0)) {
+                tdd[i].style.backgroundColor = "rgba(240,35,35,.87)";
+								tdd[i].style.color= "rgb(255,255,255)";
+            };
+        };
+
+				var td = document.getElementsByTagName('td');
+        td[todayDay + nullStartDay - 1].style.color= "rgb(0,156,46)";
+				td[todayDay + nullStartDay - 1].style.backgroundColor = "rgb(212,184,33)";
+
+        for (let i = 0; i < thh.length; i++) {
+            if (i < 5) {
+                thh[i].style.color = "rgb(0,0,0)";
+            };
+        };
+    };
+
+    function getDay(date) {
+	    let day = date.getDay();
+	    if (day === 0) {day = 7};
+	    return day - 1;
+    };
+
+    createCalendar(month, year);
+
+    let butt = document.getElementsByTagName('button');
+    let text = elem_div.getElementsByTagName('span');
+    text[0].innerHTML = arrMon[month - 1] + " " + year + ' года';
+
+//кнопки
+    butt[0].onclick = function () {
+        text[0].innerHTML = arrMon[month - 1] + " " + (year - 1) + ' года';
+        createCalendar(month, year - 1);
+        return year = year - 1;
+    };
+
+    butt[3].onclick = function () {
+        text[0].innerHTML = arrMon[month - 1] + " " + (year + 1) + ' года';
+        createCalendar(month, year + 1);
+        return year = year + 1;
+    };
+
+    butt[1].onclick = function () {
+        if (month === 1) {
+            month = 13;
+            year = year - 1;
+        };
+        createCalendar(month - 1, year);
+        month = month - 1;
+        text[0].innerHTML = arrMon[month - 1] + " " + year + ' года';
+        return month;
+    };
+
+    butt[2].onclick = function () {
+        if (month === 12) {
+            month = 0;
+            year = year + 1;
+        };
+        createCalendar(month + 1, year);
+        month = month + 1;
+        text[0].innerHTML = arrMon[month - 1] + " " + year + ' года';
+        return month;
+    } ;
+
+</script>
+</body>
+</html>

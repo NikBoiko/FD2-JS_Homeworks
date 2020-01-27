@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>compression</title>
+</head>
+
+<body>
+<script>
+/////////////////////////////////COMPRESS////////////////////////////////////
+
+function compress(inputString) {
+  var count = 0;
+  var currentCharacter = "";
+  var result = "";
+
+  for (var x = 0; x < inputString.length; x++) {
+    // читаем символ по индексу x
+    var char = inputString.charAt(x);
+      // сравниваем символ с предыдущим сохраненным символом
+      if (currentCharacter === char) {
+        // если символы одинаковы - добавляем 1 к счетчику
+        count += 1;
+      } else {// если символы разные, то сначала проверяем, не первый ли это символ:
+        if (count > 0) {// если это не первый символ - добавляем предыдущий символ и счетчик к результату
+          result += currentCharacter + count;
+        };
+      currentCharacter = char; // заменяем предыдущий символ текущим
+      count = 1; // присваиваем счетчику 1, т.к. первый символ в последовательности уже прочитан
+      }
+    }
+
+  if (count > 0) {
+    result += currentCharacter + count;
+  }
+  return console.log (result);
+  }
+
+////////////////////////////////UNCOMPRESS//////////////////////////////////
+
+function uncompress(inputString) {
+
+  var result = "";
+  var character = "";
+  var number = "";
+
+  for (var x = 0; x < inputString.length; x++) {// читаем символ по индексу x
+      var char = inputString.charAt(x);
+      // проверяем, если символ - это число
+      if (isFinite(char)) {
+
+        number += char; // добавляем цифру к числу
+      } else { // если мы здесь, значит символ - это буква (не цифра)
+
+        if (character.length > 0) { // проверяем, есть ли у нас предыдущий символ , если символ есть - значит и число должно быть =)
+
+                  var count = Number(number); // переводим строку, представляющую число, в число, т.е. "12" => 12
+          result += repeatCharacter(character, count);  // добавляем к результату символ * count раз
+        }
+
+        character = char; //сохраняем новую букву
+        number = ""; //cбрасываем число
+      }
+  }
+
+  if (character.length > 0) { //Возврат повторного значения
+    var count = Number(number);
+    result += repeatCharacter(character, count);
+  }
+
+  return console.log(result);
+}
+
+function (character, count) {
+  var result = "";
+
+  for (var i = 0; i < count; i++) {
+    result += character;
+  }
+
+  return result;
+}
+	compress("a");
+  compress("aaa");
+  compress("aabbb");
+  compress("aaabcc");
+	uncompress("a5");
+	uncompress("a2b3");
+	uncompress("a120b1c3");
+</script>
+</body>
+</html>
